@@ -1,0 +1,22 @@
+version: "2"
+services:
+  db:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: pentaho
+      POSTGRES_PASSWORD: pentaho
+      POSTGRES_DB: pentaho
+    volumes:
+      - ./data:/var/lib/postgresql/data
+  pentaho:
+    build: .
+    image: "senzil/pentaho:6.1"
+    depends_on:
+      - db
+    environment:
+      RDS_HOSTNAME: db
+      RDS_USERNAME: pentaho
+      RDS_PASSWORD: pentaho
+      RDS_DB_NAME: pentaho
+    ports:
+      - 8080:8080
